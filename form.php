@@ -113,6 +113,7 @@ if(empty($errors)){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Application</title>
+    <link href="./styles.css" rel = "stylesheet" >
 </head>
 <body>
 
@@ -121,13 +122,25 @@ if(empty($errors)){
 
     <!-- SUCCESS MESSAGE -->
     <?php if($success): ?>
-        <p style="color:green; font-weight:bold;">
+        <p class = "success">
             Your application has been submitted successfully!
         </p>
-    <?php endif; ?>
+    <?php    $values = [
+        "name" => "",
+        "email" => "",
+        "contact" => "",
+        "dob" => "",
+        "position" => "",
+        "resume" => "",
+        "cover" => "",
+        "linkedin" => "",
+        "experience" => "",
+        "skills" => []
+    ];
+     endif; ?>
 
 <form method="post" enctype="multipart/form-data">
-
+<p class="error"> * All fields are required </p>
 <!-- NAME -->
 <div class="field">
     <label>Full Name</label>

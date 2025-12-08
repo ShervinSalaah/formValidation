@@ -1,0 +1,108 @@
+/**********************************************************************
+ *  PROFESSIONAL, SIMPLE, CLEAN FORM STYLING
+ *  -------------------------------------------------------------------
+ *  This CSS gives your form:
+ *    - Centered layout
+ *    - Clean spacing
+ *    - Easy-to-read typography
+ *    - Professional colors
+ *    - Responsive behavior
+ **********************************************************************/
+
+/* Set default body background and font */
+body {
+    font-family: Arial, Helvetica, sans-serif; /* clean readable font */
+    background: #f4f6f8; /* light corporate gray */
+    margin: 0;
+    padding: 0;
+}
+
+/* Form container (white card in the middle) */
+.container {
+    max-width: 600px;         /* form width */
+    margin: 40px auto;        /* center the card */
+    padding: 30px;            /* space inside card */
+    background: #fff;         /* white background */
+    border-radius: 8px;       /* smooth corners */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* soft shadow */
+}
+
+/* Title at the top */
+h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+/* Wrapper for each field */
+.field {
+    margin-bottom: 15px; /* spacing between fields */
+}
+
+/* Label text above each input */
+.field label {
+    display: block;       /* forces label onto its own line */
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #555;
+}
+
+/* Text inputs, dropdowns, textareas, file uploads */
+.field input[type="text"],
+.field input[type="email"],
+.field input[type="url"],
+.field input[type="number"],
+.field input[type="date"],
+.field input[type="file"],
+.field select,
+.field textarea {
+    width: 100%;             /* full width inputs */
+    padding: 10px 12px;      /* internal spacing */
+    border: 1px solid #ccc;  /* subtle border */
+    border-radius: 5px;      /* slight rounding */
+    font-size: 14px;
+    box-sizing: border-box;  /* prevents padding from breaking width */
+}
+
+/* Allow textarea resizing only vertically */
+.field textarea {
+    resize: vertical;
+}
+
+/* Checkbox spacing */
+.field input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* Submit button */
+button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    background: #0a84ff;  /* corporate blue */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Hover effect for button */
+button:hover {
+    background: #0066cc; /* darker blue when hovered */
+}
+
+/* Error messages under each field */
+.error {
+    color: #d9534f;     /* red */
+    font-size: 13px;
+}
+
+/* Success message at the top */
+.success {
+    background-color: #d4edda; /* green background */
+    color: #155724;            /* darker green text */
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+}
