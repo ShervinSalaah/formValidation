@@ -1,49 +1,94 @@
 <?php
 // Store form values so we can refill the form after submission
-
+$name = $nameErr = $email = $emailErr = $contact = $contactErr = $dob = $dobErr = $position = $positionErr = $resumeErr = $cover = $coverErr = $linkedin = $linkedinErr = $experience = $experienceErr = $skills = $skillErr = "";
+$errors = [$nameErr , $emailErr, $contactErr, $dobErr, $positionErr, $resumeErr, $coverErr, $experienceErr, $linkedinErr, $skillErr];
 // This variable becomes TRUE once the form passes all validation
-
+$sucess = "false"; 
 /**
  * Sanitize user input to prevent XSS (security)
  * - trim() removes extra spaces
  * - htmlspecialchars() escapes HTML characters
  */
+function test_input($data){
+    $data = trim($data);
+    $data = striplashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
 
 
 /* --------------------------------------------------------------
  *      PROCESS THE FORM ONLY IF THE USER CLICKED "APPLY"
  * --------------------------------------------------------------*/
+if($_SERVER["REQUEST_METHOD"]==="POST"){
+
 
 //Testinput and display error messages too
 
 /* -------------------- FULL NAME --------------------- */
-
+$name = test_input($_POST["name"] ?? "");
+if($name== ""){
+    $nameErr = "Full Name is required";
+}elseif(!pregmatch("/^[A-Za-z-' ]$/")){
+    $nameErr = "Only Letters and Whitespaces allowed"; 
+}
 
 /* -------------------- EMAIL ------------------------- */
-
+$email = test_input($_POST["email"]?? "");
+if($email==""){
+    $emailErr = "Email is required";
+} elseif(!filter_var($email , FILTER_VALIDATE_EMAIL)){
+    $emailErr = "Please enter a valid email address";
+}
 
 
 /* -------------------- CONTACT NUMBER ---------------- */
-
+$contact = test_input($_POST["contact"]?? "");
+if($contact == ""){
+    $contactErr = "Contact Number is required";
+} elseif(!pregmatch("/^[0-9+]$/")){
+    $contactErr = "Please enter a valid phone number";
+}
 
 /* -------------------- DATE OF BIRTH ---------------- */
-
+$dob = test_input ($_POST["dob"]?? "");
+if($dob == ""){
+    $dobErr = "Date of Birth is required"; 
+} 
 
 
 /* -------------------- POSITION APPLIED FOR ---------- */
-
+$position = test_input($_POST["position"] ?? "");
+if($position == ""){
+    $positionErr = "Select the position you are applying for ";
+}
 
 
 /* -------------------- RESUME (PDF ONLY) ------------- */
-
-
+if(empty($_FILES['resume']) || empty($_FILES['resume']['name'])){
+    $resumeErr = "Please upload your resume (PDF only)"; 
+} else {
+    $ext = strtolower(pathinfo($_FILES['resume']['name'], PATHINFO_EXTENSION));
+    if($ext !== "pdf" ){
+        $resumeErr = "Resume must be a PDF file";
+    }
+}
+}
 
 /* -------------------- LINKEDIN URL ------------------ */
-
+$linkedin = test_input($_POST["linkedin"]?? "");
+if($linkedin == ""){
+    $linkedinErr = "Please paste your LinkedIn profile link";
+} elseif(!filter_var($linkedin, FILTER_VALIDATE_URL)){
+    $linkedinErr = "Please enter a valid URL";
+}
 
 
 /* -------------------- EXPERIENCE -------------------- */
-
+$experience = test_input($_POST["experience"]?? "");
+if($experience == ""){
+    $experienceErr = "Please Enter your years of experience";
+} 
 
 
 /* -------------------- SKILLS ------------------------ */
@@ -51,12 +96,17 @@
 
 
 /* -------------------- COVER LETTER ------------------ */
-
+$cover = test_input($_POST["cover"] ?? "");
+if($cover == ""){
+    $coverErr = "Cover Letter is required"; 
+}
 
 
 
 /* -------------------- SUCCESS CHECK ----------------- */
-
+if(empty($errors)){
+    $sucess = true; 
+}
 
 ?>
 
@@ -72,8 +122,11 @@
     <h1>Job Application Form</h1>
 
     <!-- Show success message -->
-<p> Your Application has been Submitted Successfully </p>
-
+     <?php 
+     if($sucess){
+        echo "<p> Your Application has been Submitted Successfully </p>";
+     }
+     ?>
     <!-- MAIN FORM -->
 <form method = "post">
 
