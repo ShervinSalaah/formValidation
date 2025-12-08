@@ -1,68 +1,120 @@
+// Store form values so we can refill the form after submission
+
+// This variable becomes TRUE once the form passes all validation
+
+/**
+ * Sanitize user input to prevent XSS (security)
+ * - trim() removes extra spaces
+ * - htmlspecialchars() escapes HTML characters
+ */
+
+
+/* --------------------------------------------------------------
+ *      PROCESS THE FORM ONLY IF THE USER CLICKED "APPLY"
+ * --------------------------------------------------------------*/
+
+/Testinput and display error messages too
+
+/* -------------------- FULL NAME --------------------- */
+
+
+/* -------------------- EMAIL ------------------------- */
+
+
+
+/* -------------------- CONTACT NUMBER ---------------- */
+
+
+/* -------------------- DATE OF BIRTH ---------------- */
+
+
+
+/* -------------------- POSITION APPLIED FOR ---------- */
+
+
+
+/* -------------------- RESUME (PDF ONLY) ------------- */
+
+
+
+/* -------------------- LINKEDIN URL ------------------ */
+
+
+
+/* -------------------- EXPERIENCE -------------------- */
+
+
+
+/* -------------------- SKILLS ------------------------ */
+
+
+
+/* -------------------- COVER LETTER ------------------ */
+
+
+
+
+/* -------------------- SUCCESS CHECK ----------------- */
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form</title>
+    <title>Document</title>
 </head>
 <body>
-<!--heading-->
-<h1>Job Application Form</h1>
-<!--Form start-->
-<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-Full Name <br> <input type="text" name="name" value="<?php echo $name;?>">
-<br>
-Email<br> <input type="text" name="email" value="<?php echo $email;?>">
-<br>
-Contact Number<br> <input type="number" name="contact" value="<?php echo $contact;?>">
-<br>
-Date of Birth <br> <input type="date" name="dob" value="<?php echo $dob;?>">
-<br>
-Position Applied for<br> 
-<!--dropdown list to be included-->
-<br>
-Upload Resume <br> <input type="file" name="cv">
-<!--value to be updated-->
-<br>
-Cover letter <br> <textarea name="coverLetter" rows="5" cols="40"><?php echo $coverLetter;?></textarea>
-<br>
-Linkedin Profile<br> <input type="text" name="linkedinProfile" value="<?php echo $linkedinProfile;?>">
-<br>
-Work Experience(years)<br> <input type="number" name="experience" value="<?php echo $experience;?>">
-<br>
-Skills <br> 
-<input type="checkbox" 
-    name="skills" 
-    <?php if(isset($skills) && $skills =="HTML")
-        echo "checked";?> 
-    value="HTML"> HTML
-<input type="checkbox"
-    name="skills"
-    <?php if(isset($skills) && $skills =="CSS")
-        echo "checked";?> 
-        value="CSS"> CSS
-<input type="checkbox"
-    name="skills"
-    <?php if(isset($skills)&&$skills=="JavaScript")
-        echo "checked";?>
-    value="JavaScript"> JavaScript
+    <div class="container">
+    <h1>Job Application Form</h1>
 
- <input type="checkbox"
- name="skills"
- <?php if(isset($skills)&&skills=="PHP")
-    echo "checked";?>
-value="PHP"> PHP
+    <!-- Show success message -->
 
-<input type="checkbox"
-name="skills"
-<?php if(isset($skills)&&skills=="Java")
-    echo "checked";?>
-value="Java"> Java
+    <!-- MAIN FORM -->
 
-<br><br><centre><input type="submit" name="submit" value="Apply"></centre>
+
+    <!-- FULL NAME -->
 
 
 
-</form>
+    <!-- EMAIL -->
+
+
+
+    <!-- CONTACT -->
+
+
+
+    <!-- DOB -->
+
+
+
+    <!-- POSITION -->
+
+
+
+    <!-- RESUME -->
+
+
+
+    <!--COVER LETTER-->
+
+
+    <!-- LINKEDINPROFILE -->
+
+
+
+    <!-- WORK EXPERIENCE (YEARS)-->
+
+
+
+    <!-- SKILLS -->
+
+
+
+    <!--SUBMIT BUTTON-->
+
+</div>
 </body>
 </html>
