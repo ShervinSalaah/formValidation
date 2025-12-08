@@ -150,8 +150,18 @@
 
 
     <!-- SKILLS -->
-
-
+<div class ="field">
+    <label> Skills </label>
+<?php
+$skillset = ['HTML', 'CSS', 'JavaScript', 'PHP', 'Java' ]; 
+foreach($skillset as $skill){
+    $checked = in_array($skill, $skills) ? "checked" : "";
+    echo "<label>
+    <input type='checkbox' name = 'skill' value = '$skill' $checked > $skill 
+    </label>";
+} ?>
+    <span class = "error"> <?php echo $skillErr ?? "" ; ?> </span>
+</div>
 
     <!--SUBMIT BUTTON-->
 <div class = "field">
