@@ -1,7 +1,18 @@
 <?php
 // Store form values so we can refill the form after submission
-$name = $nameErr = $email = $emailErr = $contact = $contactErr = $dob = $dobErr = $position = $positionErr = $resumeErr = $cover = $coverErr = $linkedin = $linkedinErr = $experience = $experienceErr = $skills[] = $skillErr = "";
-$errors = [$nameErr , $emailErr, $contactErr, $dobErr, $positionErr, $resumeErr, $coverErr, $experienceErr, $linkedinErr, $skillErr];
+$errors = [];
+$values = [
+    "name" => "",
+    "email" => "",
+    "contact" => "",
+    "dob" => "",
+    "position" => "",
+    "resume" => "",
+    "cover" => "",
+    "linkedin" => "",
+    "experience" => "",
+    "skills" => []
+];
 // This variable becomes TRUE once the form passes all validation
 $success = "false"; 
 /**
@@ -26,68 +37,68 @@ if($_SERVER["REQUEST_METHOD"]==="POST"){
 //Testinput and display error messages too
 
 /* -------------------- FULL NAME --------------------- */
-$name = test_input($_POST["name"] ?? "");
-if($name== ""){
-    $nameErr = "Full Name is required";
-}elseif(!preg_match("/^[A-Za-z-' ]$/", $name)){
-    $nameErr = "Only Letters and Whitespaces allowed"; 
+$values['name'] = test_input($_POST['name'] ?? "");
+if($values['name']== ""){
+    $errors['name'] = "Full Name is required";
+}elseif(!preg_match("/^[A-Za-z-' ]$/", $values['name'])){
+    $errors['name'] = "Only Letters and Whitespaces allowed"; 
 }
 
 /* -------------------- EMAIL ------------------------- */
-$email = test_input($_POST["email"]?? "");
-if($email==""){
-    $emailErr = "Email is required";
-} elseif(!filter_var($email , FILTER_VALIDATE_EMAIL)){
-    $emailErr = "Please enter a valid email address";
+$values['email'] = test_input($_POST['email']?? "");
+if($values['email']==""){
+    $errors['email'] = "Email is required";
+} elseif(!filter_var($values['email'] , FILTER_VALIDATE_EMAIL)){
+    $errores['email'] = "Please enter a valid email address";
 }
 
 
 /* -------------------- CONTACT NUMBER ---------------- */
-$contact = test_input($_POST["contact"]?? "");
-if($contact == ""){
-    $contactErr = "Contact Number is required";
-} elseif(!preg_match("/^[0-9+]$/", $contact)){
-    $contactErr = "Please enter a valid phone number";
+$values['contact'] = test_input($_POST['contact']?? "");
+if($values['contact'] == ""){
+    $errors['contact'] = "Contact Number is required";
+} elseif(!preg_match("/^[0-9+]$/", $values['contact'])){
+    $errors['contact'] = "Please enter a valid phone number";
 }
 
 /* -------------------- DATE OF BIRTH ---------------- */
-$dob = test_input ($_POST["dob"]?? "");
-if($dob == ""){
-    $dobErr = "Date of Birth is required"; 
+$values['dob'] = test_input ($_POST['dob']?? "");
+if($values['dob'] == ""){
+    $erros['dob'] = "Date of Birth is required"; 
 } 
 
 
 /* -------------------- POSITION APPLIED FOR ---------- */
-$position = test_input($_POST["position"] ?? "");
-if($position == ""){
-    $positionErr = "Select the position you are applying for ";
+$values['position'] = test_input($_POST['position'] ?? "");
+if($values['position'] == ""){
+    $errors['position'] = "Select the position you are applying for ";
 }
 
 
 /* -------------------- RESUME (PDF ONLY) ------------- */
 if(empty($_FILES['resume']) || empty($_FILES['resume']['name'])){
-    $resumeErr = "Please upload your resume (PDF only)"; 
+    $errors['resume'] = "Please upload your resume (PDF only)"; 
 } else {
     $ext = strtolower(pathinfo($_FILES['resume']['name'], PATHINFO_EXTENSION));
     if($ext !== "pdf" ){
-        $resumeErr = "Resume must be a PDF file";
+        $errors['resume']= "Resume must be a PDF file";
     }
 }
 
 
 /* -------------------- LINKEDIN URL ------------------ */
-$linkedin = test_input($_POST["linkedin"]?? "");
-if($linkedin == ""){
-    $linkedinErr = "Please paste your LinkedIn profile link";
-} elseif(!filter_var($linkedin, FILTER_VALIDATE_URL)){
-    $linkedinErr = "Please enter a valid URL";
+$values['linkedin'] = test_input($_POST['linkedin']?? "");
+if($values['linkedin'] == ""){
+    $errors['linkedin'] = "Please paste your LinkedIn profile link";
+} elseif(!filter_var($values['linkedin'], FILTER_VALIDATE_URL)){
+    $errors['linkedin'] = "Please enter a valid URL";
 }
 
 
 /* -------------------- EXPERIENCE -------------------- */
-$experience = test_input($_POST["experience"]?? "");
-if($experience == ""){
-    $experienceErr = "Please Enter your years of experience";
+$values['experience'] = test_input($_POST['experience']?? "");
+if($values['experience'] == ""){
+    $errors['experience'] = "Please Enter your years of experience";
 } 
 
 
@@ -96,9 +107,9 @@ if($experience == ""){
 
 
 /* -------------------- COVER LETTER ------------------ */
-$cover = test_input($_POST["cover"] ?? "");
-if($cover == ""){
-    $coverErr = "Cover Letter is required"; 
+$values['cover'] = test_input($_POST['cover'] ?? "");
+if($values['cover'] == ""){
+    $errors['cover'] = "Cover Letter is required"; 
 }
 
 
@@ -134,31 +145,31 @@ if(empty($errors)){
     <!-- FULL NAME -->
 <div class = "field">
     <label>Full Name </label>
-    <input type="text" name ="name" value = " <?php echo $name; ?> " >
-    <span class = "error"> <?php echo $nameErr??"";?> </span>
+    <input type="text" name ="name" value = " <?php echo $values['name']; ?> " >
+    <span class = "error"> <?php echo $errors['name']??"";?> </span>
 </div>
 
     <!-- EMAIL -->
 <div class = "field">
     <label> Email </label>
-    <input type = "email" name = "email" value = " <?php echo $email; ?> " >
-    <span class = "error"> <?php echo $emailErr ?? ""; ?> </span>
+    <input type = "email" name = "email" value = " <?php echo $values['email']; ?> " >
+    <span class = "error"> <?php echo $errors['email'] ?? ""; ?> </span>
 </div>  
 
 
     <!-- CONTACT -->
 <div class = "field">
     <label> Contact Number </label>
-    <input type = "text" name = "contact" value = " <?php echo $contact; ?> ">
-    <span class = "error"> <?php echo $contactErr ?? ""; ?> </span>
+    <input type = "text" name = "contact" value = " <?php echo $values['contact']; ?> ">
+    <span class = "error"> <?php echo $errors['contact'] ?? ""; ?> </span>
 </div>    
 
 
     <!-- DOB -->
 <div class = "field">
     <label> Date of Birth </label>
-    <input type = "date" name = "dob" value = " <?php echo $dob; ?> ">
-    <span class = "error"> <?php echo $dobErr ?? ""; ?> </span>
+    <input type = "date" name = "dob" value = " <?php echo $values['dob']; ?> ">
+    <span class = "error"> <?php echo $errors['dob'] ?? ""; ?> </span>
 
 
     <!-- POSITION -->
@@ -166,40 +177,40 @@ if(empty($errors)){
     <label>Position Applied For </label>
     <select name="position">
         <option value = ""> Select a position </option>
-        <option value = "Software Developer" <?php if($position == "Software Developer") echo "selected";?>> Software Developer </option>
-        <option value = "Web Designer" <?php if($position =="Web Designer") echo "selected"; ?>> Web Designer </option>
-        <option value = "Project Manager" <?php if($position=="Project Manager") echo "selected"; ?>> Project Manager </option>
+        <option value = "Software Developer" <?php if($values['position'] == "Software Developer") echo "selected";?>> Software Developer </option>
+        <option value = "Web Designer" <?php if($values['position'] =="Web Designer") echo "selected"; ?>> Web Designer </option>
+        <option value = "Project Manager" <?php if($values['position']=="Project Manager") echo "selected"; ?>> Project Manager </option>
     </select> 
 </div>       
-<span class = "error"> <?php echo $positionErr ?? "" ; ?> </span>
+<span class = "error"> <?php echo $errors['position'] ?? "" ; ?> </span>
 
     <!-- RESUME -->
 <div class = "field" >
     <label> Upload Resume (PDF only)</label>
     <input type = "file" name = "resume" accept= ".pdf" > 
-    <span class = "error" > <?php echo $resumeErr??""; ?> </span>
+    <span class = "error" > <?php echo $errors['resume']??""; ?> </span>
 </div>
     <!--COVER LETTER-->
 <div class = "field">
     <label> Cover Letter </label>
-    <textarea name="cover" rows="5"> <?php echo $cover; ?> </textarea>
-    <span class = "error"><?php echo $coverErr??"";?> </span>
+    <textarea name="cover" rows="5"> <?php echo $values['cover']; ?> </textarea>
+    <span class = "error"><?php echo $errors['cover']??"";?> </span>
 </div>    
 
 
     <!-- LINKEDINPROFILE -->
 <div class = " field">
     <label> LinkedIn Profile </label>
-    <input type = "url" name = "linkedin" value = "<?php echo $linkedin; ?>">
-    <span class = "error"> <?php echo $linkedinErr ?? "" ; ?> </span>
+    <input type = "url" name = "linkedin" value = "<?php echo $values['linkedin']; ?>">
+    <span class = "error"> <?php echo $errors['linkedin'] ?? "" ; ?> </span>
 </div>     
 
 
     <!-- WORK EXPERIENCE (YEARS)-->
 <div class = "field">
     <label>Work Experience (Years) </label>
-    <input type = "number" name = "experience" value = " <?php echo $experience;?>">
-    <span class = "error"> <?php echo $experienceErr ?? "" ; ?> </span>
+    <input type = "number" name = "experience" value = " <?php echo $values['experience'];?>">
+    <span class = "error"> <?php echo $errors['experience'] ?? "" ; ?> </span>
 </div>    
 
 
@@ -209,12 +220,12 @@ if(empty($errors)){
 <?php
 $skillset = ['HTML', 'CSS', 'JavaScript', 'PHP', 'Java' ]; 
 foreach($skillset as $skill){
-    $checked = in_array($skill, $skills) ? "checked" : "";
+    $checked = in_array($skill, $values['skills']) ? "checked" : "";
     echo "<label>
     <input type='checkbox' name = 'skill' value = '$skill' $checked > $skill 
     </label>";
 } ?>
-    <span class = "error"> <?php echo $skillErr ?? "" ; ?> </span>
+    <span class = "error"> <?php echo $errors['skills'] ?? "" ; ?> </span>
 </div>
 
     <!--SUBMIT BUTTON-->
