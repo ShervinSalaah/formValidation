@@ -1,9 +1,9 @@
 <?php
 // Store form values so we can refill the form after submission
-$name = $nameErr = $email = $emailErr = $contact = $contactErr = $dob = $dobErr = $position = $positionErr = $resumeErr = $cover = $coverErr = $linkedin = $linkedinErr = $experience = $experienceErr = $skills = $skillErr = "";
+$name = $nameErr = $email = $emailErr = $contact = $contactErr = $dob = $dobErr = $position = $positionErr = $resumeErr = $cover = $coverErr = $linkedin = $linkedinErr = $experience = $experienceErr = $skills[] = $skillErr = "";
 $errors = [$nameErr , $emailErr, $contactErr, $dobErr, $positionErr, $resumeErr, $coverErr, $experienceErr, $linkedinErr, $skillErr];
 // This variable becomes TRUE once the form passes all validation
-$sucess = "false"; 
+$success = "false"; 
 /**
  * Sanitize user input to prevent XSS (security)
  * - trim() removes extra spaces
@@ -11,7 +11,7 @@ $sucess = "false";
  */
 function test_input($data){
     $data = trim($data);
-    $data = striplashes($data);
+    $data = stripslashes($data);
     $data = htmlspecialchars($data);
     return $data;
 }
@@ -29,7 +29,7 @@ if($_SERVER["REQUEST_METHOD"]==="POST"){
 $name = test_input($_POST["name"] ?? "");
 if($name== ""){
     $nameErr = "Full Name is required";
-}elseif(!pregmatch("/^[A-Za-z-' ]$/")){
+}elseif(!preg_match("/^[A-Za-z-' ]$/", $name)){
     $nameErr = "Only Letters and Whitespaces allowed"; 
 }
 
@@ -46,7 +46,7 @@ if($email==""){
 $contact = test_input($_POST["contact"]?? "");
 if($contact == ""){
     $contactErr = "Contact Number is required";
-} elseif(!pregmatch("/^[0-9+]$/")){
+} elseif(!preg_match("/^[0-9+]$/", $contact)){
     $contactErr = "Please enter a valid phone number";
 }
 
@@ -73,7 +73,7 @@ if(empty($_FILES['resume']) || empty($_FILES['resume']['name'])){
         $resumeErr = "Resume must be a PDF file";
     }
 }
-}
+
 
 /* -------------------- LINKEDIN URL ------------------ */
 $linkedin = test_input($_POST["linkedin"]?? "");
@@ -105,9 +105,10 @@ if($cover == ""){
 
 /* -------------------- SUCCESS CHECK ----------------- */
 if(empty($errors)){
-    $sucess = true; 
+    $success = true; 
 }
 
+}
 ?>
 
 <!DOCTYPE html>
@@ -123,7 +124,7 @@ if(empty($errors)){
 
     <!-- Show success message -->
      <?php 
-     if($sucess){
+     if($success == "true"){
         echo "<p> Your Application has been Submitted Successfully </p>";
      }
      ?>
